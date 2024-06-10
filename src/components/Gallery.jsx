@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import picture3 from '../assets/whatsapp.PNG';
 import picture2 from '../assets/ge.PNG';
@@ -14,11 +14,6 @@ const GalleryWrapper = styled.div`
   top: calc(50% - 175px);
   width: 100%;
   overflow: hidden;
-`;
-
-const ProjectContainer = styled.div`
-  display: grid;
-  align-content: end;
 `;
 
 const ScrollContainer = styled.ul`
@@ -55,39 +50,39 @@ const ScrollContainer = styled.ul`
     grid-template-columns: 300px;
   }
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     content: "";
     width: 1300px;
   }
 
   @media screen and (max-width: 1200px) {
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       width: 900px;
     }
   }
   @media screen and (max-width: 900px) {
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       width: 700px;
     }
   }
   @media screen and (max-width: 700px) {
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       width: 500px;
     }
   }
   @media screen and (max-width: 500px) {
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       width: 400px;
     }
   }
   @media screen and (max-width: 400px) {
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       width: 300px;
     }
   }
@@ -103,8 +98,7 @@ const ScrollContainer = styled.ul`
 `;
 
 const ImageContainer = styled.li`
-  scroll-snap-align: center;
-  display: flex;
+   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -116,10 +110,10 @@ const ImageContainer = styled.li`
     object-fit: cover;
     filter: grayscale(100%);
     transition: all 400ms ease-in-out;
-  }
 
-  img:hover {
-    filter: grayscale(0%);
+    &:hover {
+      filter: grayscale(0%);
+    }
   }
 `;
 
@@ -135,64 +129,23 @@ const projects = [
 ];
 
 const Gallery = () => {
-  const projectContainerRef = useRef(null);
-
-  const handleScroll = (event) => {
-    const container = projectContainerRef.current;
-    const scrollAmount = event.deltaY || event.deltaX;
-
-    container.scrollBy({
-      left: scrollAmount,
-      behavior: 'smooth',
-    });
+  const handleClick = (link) => {
+    window.open(link, '_blank');
   };
-
-  const handleMouseMove = (event) => {
-    const container = projectContainerRef.current;
-    const boundingRect = container.getBoundingClientRect();
-    const mouseX = event.clientX - boundingRect.left;
-
-    const moveBy = (mouseX - boundingRect.width / 2) * 0.1;
-    container.style.transform = `translateX(${moveBy}px)`;
-  };
-
-  const handleMouseLeave = () => {
-    const container = projectContainerRef.current;
-    container.style.transform = 'translateX(0)';
-  };
-
-  useEffect(() => {
-    const container = projectContainerRef.current;
-    container.addEventListener('wheel', handleScroll);
-    container.addEventListener('mousemove', handleMouseMove);
-    container.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      container.removeEventListener('wheel', handleScroll);
-      container.removeEventListener('mousemove', handleMouseMove);
-      container.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, []);
 
   return (
     <GalleryWrapper>
-      <ProjectContainer>
-        <ScrollContainer ref={projectContainerRef} className="no-scrollbar">
-          {projects.map((project, index) => (
-            <ImageContainer
-              key={index}
-              onClick={() => {
-                if (!project.disabled) {
-                  window.open(project.link, '_blank');
-                }
-              }}
-              style={{ cursor: project.disabled ? 'not-allowed' : 'pointer' }}
-            >
-              <img src={project.src} alt={project.alt} />
-            </ImageContainer>
-          ))}
-        </ScrollContainer>
-      </ProjectContainer>
+      <ScrollContainer className="no-scrollbar" projectCount={projects.length}>
+        {projects.map((project, index) => (
+          <ImageContainer
+            key={index}
+            onClick={() => !project.disabled && handleClick(project.link)}
+            style={{ cursor: project.disabled ? 'not-allowed' : 'pointer' }}
+          >
+            <img src={project.src} alt={project.alt} />
+          </ImageContainer>
+        ))}
+      </ScrollContainer>
     </GalleryWrapper>
   );
 };

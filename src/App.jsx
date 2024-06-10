@@ -1,9 +1,9 @@
 import React from 'react';
 import GlobalStyle from './styles/GlobalStyle';
-import Header from './components/Header';
 import Footer from './components/Footer';
 import Gallery from './components/Gallery';
 import styled from 'styled-components';
+import LandingNav from './components/Navbar';
 
 const AppContainer = styled.div`
   position: relative;
@@ -20,7 +20,7 @@ const App = () => {
   return (
     <AppContainer>
       <GlobalStyle />
-      <Header />
+      <LandingNav />
       <Gallery />
       <Footer />
     </AppContainer>
