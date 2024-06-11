@@ -3,7 +3,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import Footer from './components/Footer';
 import Gallery from './components/Gallery';
 import styled from 'styled-components';
-import LandingNav from './components/Navbar';
+import Navbar from './components/Navbar';
 
 const AppContainer = styled.div`
   position: relative;
@@ -20,7 +20,7 @@ const App = () => {
   return (
     <AppContainer>
       <GlobalStyle />
-      <LandingNav />
+      <Navbar />
       <Gallery />
       <Footer />
     </AppContainer>

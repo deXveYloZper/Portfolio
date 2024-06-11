@@ -34,7 +34,7 @@ const NavName = styled.div`
   }
 `;
 
-const LandingNav = () => {
+const Navbar = () => {
   return (
     <NavbarContainer>
       <NavbarItems>
@@ -47,4 +47,4 @@ const LandingNav = () => {
   );
 };
 
-export default LandingNav;
+export default Navbar;
